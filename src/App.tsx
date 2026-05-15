@@ -214,7 +214,7 @@ export default function App() {
                 onClick={() => {
                   if (
                     confirm(
-                      "Start a new round? This restores everyone to the wheel and clears spin history.",
+                      "Reset round? This removes ALL participants and clears spin history.",
                     )
                   )
                     store.resetRound();

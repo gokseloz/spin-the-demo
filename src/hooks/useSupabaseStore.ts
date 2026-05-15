@@ -127,11 +127,8 @@ export function useSupabaseStore() {
 
   const resetRound = async () => {
     if (!supabase) return;
-    await supabase
-      .from("participants")
-      .update({ active: true })
-      .eq("active", false);
     await supabase.from("spins").delete().not("id", "is", null);
+    await supabase.from("participants").delete().not("id", "is", null);
     await refresh();
   };
 

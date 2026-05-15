@@ -89,7 +89,7 @@ export function useLocalStore() {
     setSpins((prev) => prev.filter((s) => s.id !== id));
 
   const resetRound = () => {
-    setParticipants((prev) => prev.map((p) => ({ ...p, active: true })));
+    setParticipants([]);
     setSpins([]);
   };
 
