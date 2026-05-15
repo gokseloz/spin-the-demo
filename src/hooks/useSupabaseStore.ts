@@ -80,6 +80,7 @@ export function useSupabaseStore() {
   const addParticipant = async (name: string, emoji: string) => {
     if (!supabase) return;
     await supabase.from("participants").insert({ name, emoji, active: true });
+    await refresh();
   };
 
   const updateParticipant = async (id: string, patch: Partial<Participant>) => {
@@ -89,11 +90,13 @@ export function useSupabaseStore() {
     if (patch.emoji !== undefined) dbPatch.emoji = patch.emoji;
     if (patch.active !== undefined) dbPatch.active = patch.active;
     await supabase.from("participants").update(dbPatch).eq("id", id);
+    await refresh();
   };
 
   const deleteParticipant = async (id: string) => {
     if (!supabase) return;
     await supabase.from("participants").delete().eq("id", id);
+    await refresh();
   };
 
   const setActive = (id: string, active: boolean) =>
@@ -105,6 +108,7 @@ export function useSupabaseStore() {
       participant_id: participant.id,
       participant_name: participant.name,
     });
+    await refresh();
   };
 
   return {
