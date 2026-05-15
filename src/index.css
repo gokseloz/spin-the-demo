@@ -1,0 +1,12 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+kbd {
+  font-family: ui-monospace, monospace;
+  background: rgba(127,127,127,0.2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
