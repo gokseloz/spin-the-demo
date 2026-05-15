@@ -12,6 +12,8 @@ export type StoreApi = {
   deleteParticipant: (id: string) => void;
   setActive: (id: string, active: boolean) => void;
   recordSpin: (p: Participant) => void;
+  clearHistory: () => void;
+  deleteSpin: (id: string) => void;
 };
 
 export type ClientPrefs = {
@@ -41,6 +43,8 @@ export function useStore(authed: boolean): StoreApi & ClientPrefs {
       deleteParticipant: remote.deleteParticipant,
       setActive: remote.setActive,
       recordSpin: remote.recordSpin,
+      clearHistory: remote.clearHistory,
+      deleteSpin: remote.deleteSpin,
       settings: local.settings,
       updateSettings: local.updateSettings,
     };
@@ -55,6 +59,8 @@ export function useStore(authed: boolean): StoreApi & ClientPrefs {
     deleteParticipant: local.deleteParticipant,
     setActive: local.setActive,
     recordSpin: local.recordSpin,
+    clearHistory: local.clearHistory,
+    deleteSpin: local.deleteSpin,
     settings: local.settings,
     updateSettings: local.updateSettings,
     resetAll: local.resetAll,

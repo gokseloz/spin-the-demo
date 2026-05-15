@@ -219,7 +219,11 @@ export default function App() {
             </Paper>
 
             <Paper sx={{ p: 2 }}>
-              <HistoryList spins={store.spins} />
+              <HistoryList
+                spins={store.spins}
+                onDelete={store.deleteSpin}
+                onClear={store.clearHistory}
+              />
               {store.resetAll && (
                 <>
                   <Divider sx={{ my: 2 }} />

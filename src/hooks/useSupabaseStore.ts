@@ -111,6 +111,18 @@ export function useSupabaseStore() {
     await refresh();
   };
 
+  const clearHistory = async () => {
+    if (!supabase) return;
+    await supabase.from("spins").delete().not("id", "is", null);
+    await refresh();
+  };
+
+  const deleteSpin = async (id: string) => {
+    if (!supabase) return;
+    await supabase.from("spins").delete().eq("id", id);
+    await refresh();
+  };
+
   return {
     participants,
     spins,
@@ -120,5 +132,7 @@ export function useSupabaseStore() {
     deleteParticipant,
     setActive,
     recordSpin,
+    clearHistory,
+    deleteSpin,
   };
 }
