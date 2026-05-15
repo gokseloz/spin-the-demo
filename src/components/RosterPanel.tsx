@@ -42,6 +42,25 @@ type Props = {
   onSetActive: (id: string, active: boolean) => void;
 };
 
+const RANDOM_NAMES = [
+  "Alex",
+  "Sam",
+  "Jordan",
+  "Taylor",
+  "Morgan",
+  "Casey",
+  "Riley",
+  "Avery",
+  "Quinn",
+  "Reese",
+  "Sasha",
+  "Drew",
+  "Jamie",
+  "Robin",
+  "Skyler",
+  "Cameron",
+];
+
 export default function RosterPanel({
   participants,
   onAdd,
@@ -93,6 +112,22 @@ export default function RosterPanel({
         <Button variant="outlined" onClick={submit}>
           Add
         </Button>
+        <Tooltip title="Add 6 random test names">
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => {
+              const shuffled = [...RANDOM_NAMES].sort(() => Math.random() - 0.5);
+              shuffled.slice(0, 6).forEach((n) => {
+                const e =
+                  EMOJI_CHOICES[Math.floor(Math.random() * EMOJI_CHOICES.length)];
+                onAdd(n, e);
+              });
+            }}
+          >
+            🎲
+          </Button>
+        </Tooltip>
       </Stack>
 
       <List dense>
