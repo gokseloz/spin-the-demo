@@ -56,20 +56,22 @@ export function useSupabaseStore() {
   }, []);
 
   useEffect(() => {
-    refresh();
+    // Initial fetch + realtime subscription. The setState inside `refresh`
+    // is the intended cross-system synchronization for this hook.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void refresh();
     if (!supabase) return;
-    // Realtime: any change → refetch (simple & robust)
     const channel = supabase
       .channel("spin-the-demo")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "participants" },
-        () => refresh(),
+        () => void refresh(),
       )
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "spins" },
-        () => refresh(),
+        () => void refresh(),
       )
       .subscribe();
     return () => {
