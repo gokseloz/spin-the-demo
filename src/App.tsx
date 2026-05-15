@@ -206,6 +206,22 @@ export default function App() {
                   label="Sound"
                 />
               </Box>
+              <Divider sx={{ my: 2 }} />
+              <Button
+                variant="outlined"
+                color="warning"
+                size="small"
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Start a new round? This restores everyone to the wheel and clears spin history.",
+                    )
+                  )
+                    store.resetRound();
+                }}
+              >
+                🔁 Reset round
+              </Button>
             </Paper>
 
             <Paper sx={{ p: 2 }}>

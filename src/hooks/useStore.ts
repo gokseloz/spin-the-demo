@@ -14,6 +14,7 @@ export type StoreApi = {
   recordSpin: (p: Participant) => void;
   clearHistory: () => void;
   deleteSpin: (id: string) => void;
+  resetRound: () => void;
 };
 
 export type ClientPrefs = {
@@ -45,6 +46,7 @@ export function useStore(authed: boolean): StoreApi & ClientPrefs {
       recordSpin: remote.recordSpin,
       clearHistory: remote.clearHistory,
       deleteSpin: remote.deleteSpin,
+      resetRound: remote.resetRound,
       settings: local.settings,
       updateSettings: local.updateSettings,
     };
@@ -61,6 +63,7 @@ export function useStore(authed: boolean): StoreApi & ClientPrefs {
     recordSpin: local.recordSpin,
     clearHistory: local.clearHistory,
     deleteSpin: local.deleteSpin,
+    resetRound: local.resetRound,
     settings: local.settings,
     updateSettings: local.updateSettings,
     resetAll: local.resetAll,

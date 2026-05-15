@@ -88,6 +88,11 @@ export function useLocalStore() {
   const deleteSpin = (id: string) =>
     setSpins((prev) => prev.filter((s) => s.id !== id));
 
+  const resetRound = () => {
+    setParticipants((prev) => prev.map((p) => ({ ...p, active: true })));
+    setSpins([]);
+  };
+
   const updateSettings = (patch: Partial<Settings>) =>
     setSettings((prev) => ({ ...prev, ...patch }));
 
@@ -108,6 +113,7 @@ export function useLocalStore() {
     recordSpin,
     clearHistory,
     deleteSpin,
+    resetRound,
     updateSettings,
     resetAll,
   };
