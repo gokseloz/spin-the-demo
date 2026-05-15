@@ -69,7 +69,7 @@ export default function App() {
       }
       e.preventDefault();
       const btn = document.querySelector<HTMLButtonElement>(
-        "button.MuiButton-containedPrimary",
+        "button[data-spin-button]",
       );
       btn?.click();
     }
@@ -113,11 +113,7 @@ export default function App() {
             🎡 Spin the Demo
           </Typography>
           {!isSupabaseConfigured && (
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ mr: 2 }}
-            >
+            <Typography variant="caption" color="text.secondary" sx={{ mr: 2 }}>
               local mode
             </Typography>
           )}

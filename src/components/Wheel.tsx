@@ -174,6 +174,7 @@ export default function Wheel({
         size="large"
         onClick={spin}
         disabled={spinning || eligible.length === 0}
+        data-spin-button="true"
         sx={{ minWidth: 200, fontSize: 18, py: 1.5 }}
       >
         {spinning ? "Spinning…" : "Spin 🎯"}
