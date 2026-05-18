@@ -14,7 +14,6 @@ export type Spin = {
 };
 
 export type Settings = {
-  excludeLastN: number;
   soundEnabled: boolean;
   themeMode: "light" | "dark";
 };

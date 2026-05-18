@@ -26,7 +26,7 @@ export type ClientPrefs = {
 /**
  * Returns a unified store. When Supabase env vars are set AND the caller passes
  * `authed=true`, data flows through Supabase. Otherwise localStorage is used.
- * UI prefs (theme, sound, excludeLastN) always live in localStorage.
+ * UI prefs (theme, sound) always live in localStorage.
  */
 export function useStore(authed: boolean): StoreApi & ClientPrefs {
   const local = useLocalStore();

@@ -19,7 +19,6 @@ const DEFAULT_PARTICIPANTS: Participant[] = [
 ];
 
 const DEFAULT_SETTINGS: Settings = {
-  excludeLastN: 3,
   soundEnabled: true,
   themeMode: "dark",
 };

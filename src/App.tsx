@@ -11,7 +11,6 @@ import {
   Paper,
   Stack,
   Switch,
-  TextField,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -42,8 +41,8 @@ export default function App() {
 
   const eligible = useMemo(
     () =>
-      getEligible(store.participants, store.spins, store.settings.excludeLastN),
-    [store.participants, store.spins, store.settings.excludeLastN],
+      getEligible(store.participants),
+    [store.participants],
   );
 
   const handleWinner = useCallback(
@@ -160,7 +159,7 @@ export default function App() {
               color="text.secondary"
               sx={{ display: "block", textAlign: "center", mt: 1 }}
             >
-              Press <kbd>Space</kbd> to spin · greyed slices are auto-excluded
+              Press <kbd>Space</kbd> to spin
             </Typography>
           </Box>
 
@@ -177,19 +176,6 @@ export default function App() {
                   alignItems: "center",
                 }}
               >
-                <TextField
-                  label="Exclude last N spins"
-                  type="number"
-                  size="small"
-                  value={store.settings.excludeLastN}
-                  onChange={(e) =>
-                    store.updateSettings({
-                      excludeLastN: Math.max(0, Number(e.target.value) || 0),
-                    })
-                  }
-                  slotProps={{ htmlInput: { min: 0, max: 20 } }}
-                  sx={{ width: 160 }}
-                />
                 <FormControlLabel
                   control={
                     <Switch
