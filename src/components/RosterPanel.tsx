@@ -42,6 +42,43 @@ type Props = {
   onSetActive: (id: string, active: boolean) => void;
 };
 
+function ParticipantNameField({
+  participant,
+  onUpdate,
+}: {
+  participant: Participant;
+  onUpdate: Props["onUpdate"];
+}) {
+  const [draft, setDraft] = useState(participant.name);
+
+  function commit() {
+    const nextName = draft.trim();
+    if (!nextName) {
+      setDraft(participant.name);
+      return;
+    }
+    if (nextName !== participant.name) {
+      setDraft(nextName);
+      onUpdate(participant.id, { name: nextName });
+    }
+  }
+
+  return (
+    <TextField
+      value={draft}
+      onChange={(event) => setDraft(event.target.value)}
+      onBlur={commit}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          (event.target as HTMLInputElement).blur();
+        }
+      }}
+      variant="standard"
+      size="small"
+    />
+  );
+}
+
 const RANDOM_NAMES = [
   "Frodo",
   "Sam",
@@ -172,11 +209,10 @@ export default function RosterPanel({
                   }}
                 >
                   <span style={{ fontSize: 18 }}>{p.emoji}</span>
-                  <TextField
-                    value={p.name}
-                    onChange={(e) => onUpdate(p.id, { name: e.target.value })}
-                    variant="standard"
-                    size="small"
+                  <ParticipantNameField
+                    key={`${p.id}:${p.name}`}
+                    participant={p}
+                    onUpdate={onUpdate}
                   />
                 </Box>
               }

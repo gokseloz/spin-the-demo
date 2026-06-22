@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Participant, Settings, Spin } from "../types";
+import { TEAM_MEMBERS } from "../data/team";
 
 const KEYS = {
   participants: "spin-the-demo:participants",
@@ -7,16 +8,17 @@ const KEYS = {
   settings: "spin-the-demo:settings",
 };
 
-const DEFAULT_PARTICIPANTS: Participant[] = [
-  { id: "1", name: "Göksel", emoji: "🎯", active: true, createdAt: now() },
-  { id: "2", name: "Fedi", emoji: "🚀", active: true, createdAt: now() },
-  { id: "3", name: "Ali", emoji: "⭐", active: true, createdAt: now() },
-  { id: "4", name: "Dhruv", emoji: "🔥", active: true, createdAt: now() },
-  { id: "5", name: "Martim", emoji: "🌊", active: true, createdAt: now() },
-  { id: "6", name: "Pujitha", emoji: "🌸", active: true, createdAt: now() },
-  { id: "7", name: "Abhishek", emoji: "⚡", active: true, createdAt: now() },
-  { id: "8", name: "Sajahan", emoji: "🎨", active: true, createdAt: now() },
-];
+const createDefaultParticipants = (): Participant[] => {
+  const createdAt = Date.now();
+  return TEAM_MEMBERS.map((member, index) => ({
+    id: String(index + 1),
+    ...member,
+    active: true,
+    createdAt: new Date(createdAt + index).toISOString(),
+  }));
+};
+
+const DEFAULT_PARTICIPANTS = createDefaultParticipants();
 
 const DEFAULT_SETTINGS: Settings = {
   soundEnabled: true,
@@ -88,7 +90,7 @@ export function useLocalStore() {
     setSpins((prev) => prev.filter((s) => s.id !== id));
 
   const resetRound = () => {
-    setParticipants([]);
+    setParticipants(createDefaultParticipants());
     setSpins([]);
   };
 
@@ -96,7 +98,7 @@ export function useLocalStore() {
     setSettings((prev) => ({ ...prev, ...patch }));
 
   const resetAll = () => {
-    setParticipants(DEFAULT_PARTICIPANTS);
+    setParticipants(createDefaultParticipants());
     setSpins([]);
     setSettings(DEFAULT_SETTINGS);
   };

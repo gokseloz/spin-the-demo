@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import confetti from "canvas-confetti";
@@ -7,7 +7,6 @@ import { WHEEL_COLORS } from "../theme";
 
 type Props = {
   participants: Participant[];
-  eligible: Participant[];
   onWinner: (winner: Participant) => void;
   size?: number;
 };
@@ -45,7 +44,6 @@ const Canvas = styled("canvas")<{ $spinning: boolean }>(({ $spinning }) => ({
 
 export default function Wheel({
   participants,
-  eligible,
   onWinner,
   size = 480,
 }: Props) {
@@ -54,11 +52,7 @@ export default function Wheel({
   const [spinning, setSpinning] = useState(false);
   const [winner, setWinner] = useState<Participant | null>(null);
 
-  useEffect(() => {
-    draw();
-  }, [participants]);
-
-  function draw() {
+  const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -82,22 +76,16 @@ export default function Wheel({
     }
 
     const slice = (Math.PI * 2) / participants.length;
-    const eligibleIds = new Set(eligible.map((p) => p.id));
 
     participants.forEach((p, i) => {
       const start = i * slice - Math.PI / 2;
       const end = start + slice;
-      const isEligible = eligibleIds.has(p.id);
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, radius, start, end);
       ctx.closePath();
-      ctx.fillStyle = isEligible
-        ? WHEEL_COLORS[i % WHEEL_COLORS.length]
-        : "#475569";
-      ctx.globalAlpha = isEligible ? 1 : 0.45;
+      ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
       ctx.fill();
-      ctx.globalAlpha = 1;
       ctx.strokeStyle = "#0f172a";
       ctx.lineWidth = 2;
       ctx.stroke();
@@ -121,16 +109,19 @@ export default function Wheel({
     ctx.strokeStyle = "#475569";
     ctx.lineWidth = 3;
     ctx.stroke();
-  }
+  }, [participants, size]);
+
+  useEffect(() => {
+    draw();
+  }, [draw]);
 
   function spin() {
-    if (spinning || eligible.length === 0) return;
+    if (spinning || participants.length === 0) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Pick winner from eligible, then find their position in the full
-    // participants array (the wheel renders all participants).
-    const picked = eligible[Math.floor(Math.random() * eligible.length)];
+    const picked =
+      participants[Math.floor(Math.random() * participants.length)];
     const winnerIdx = participants.findIndex((p) => p.id === picked.id);
     if (winnerIdx < 0) return;
 
@@ -173,7 +164,7 @@ export default function Wheel({
         variant="contained"
         size="large"
         onClick={spin}
-        disabled={spinning || eligible.length === 0}
+        disabled={spinning || participants.length === 0}
         data-spin-button="true"
         sx={{ minWidth: 200, fontSize: 18, py: 1.5 }}
       >

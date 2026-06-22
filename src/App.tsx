@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useCallback } from "react";
+import { useMemo, useEffect, useCallback, useState } from "react";
 import {
   AppBar,
   Box,
@@ -31,6 +31,7 @@ import type { Participant } from "./types";
 
 export default function App() {
   const { session, loading: authLoading, signIn, signOut } = useAuth();
+  const [wheelResetKey, setWheelResetKey] = useState(0);
   const authed = Boolean(session) || !isSupabaseConfigured;
   const store = useStore(authed);
 
@@ -150,8 +151,8 @@ export default function App() {
         >
           <Box sx={{ flex: "0 0 auto" }}>
             <Wheel
-              participants={store.participants}
-              eligible={eligible}
+              key={wheelResetKey}
+              participants={eligible}
               onWinner={handleWinner}
             />
             <Typography
@@ -193,13 +194,15 @@ export default function App() {
                 variant="outlined"
                 color="warning"
                 size="small"
-                onClick={() => {
+                onClick={async () => {
                   if (
                     confirm(
-                      "Reset round? This removes ALL participants and clears spin history.",
+                      "Reset round? This restores the team and clears spin history.",
                     )
-                  )
-                    store.resetRound();
+                  ) {
+                    await store.resetRound();
+                    setWheelResetKey((key) => key + 1);
+                  }
                 }}
               >
                 🔁 Reset round

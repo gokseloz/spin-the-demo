@@ -55,6 +55,6 @@ insert into participants (name, emoji) values
   ('Dhruv',    '🔥'),
   ('Martim',   '🌊'),
   ('Pujitha',  '🌸'),
-  ('Abhishek', '⚡'),
-  ('Sajahan',  '🎨')
+  ('Sajahan',  '🎨'),
+  ('Abhishek', '⚡')
 on conflict do nothing;

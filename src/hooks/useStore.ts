@@ -30,9 +30,8 @@ export type ClientPrefs = {
  */
 export function useStore(authed: boolean): StoreApi & ClientPrefs {
   const local = useLocalStore();
-  const remote = useSupabaseStore();
-
   const useRemote = isSupabaseConfigured && authed;
+  const remote = useSupabaseStore(useRemote);
 
   if (useRemote) {
     return {
